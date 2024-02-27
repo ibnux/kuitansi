@@ -31,8 +31,12 @@
                 </div>
                 <hr>
                 <div class="row">
+                    <div class="col-md-4" align="center">
+                        <canvas id="signature" class="border" width=300px height=300px></canvas>
+                        <button type="button" id="clear" class="btn btn-warning">clear</button>
+                    </div>
                     <div class="col-md-8">
-                    <div style="height: 300px; overflow: scroll;" class="border p-2">
+                    <div class="border p-2" id="form">
                         <div class="form-group">
                             <label>Nomor</label>
                             <input type="text" class="form-control" id="nomor" value="234">
@@ -71,12 +75,10 @@
 
                     </div>
                     </div>
-                    <div class="col-md-4" align="center">
-                        <canvas id="signature" class="border" width=300px height=300px></canvas>
-                        <button type="button" id="clear" class="btn btn-warning">clear</button>
-                    </div>
                 </div>
-                <button type="button" id="download" class="btn btn-primary">download</button>
+            	<br>
+                <center><button type="button" id="download" class="btn btn-primary btn-block">download</button></center>
+            	<br><br>
             </div>
         </div>
     </div>
@@ -205,6 +207,7 @@
     var lastPos = mousePos;
 
     canvasig.addEventListener("mousedown", function (e) {
+    	document.getElementById('form').style.display = "none"
         drawing = true;
         lastPos = getMousePos(canvasig, e);
     }, false);
@@ -213,6 +216,7 @@
         DrawText()
         ctx.drawImage(canvasig,1110, 350);
         drawing = false;
+    	document.getElementById('form').style.display = "block"
     }, false);
 
     canvasig.addEventListener("mousemove", function (e) {
