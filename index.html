@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+        integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+
+    <title>Kuitansi</title>
+    <style>
+        #signature {
+            border: 2px dotted #CCCCCC;
+            border-radius: 15px;
+            cursor: crosshair;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div id="canvas-wrap">
+                    <canvas style="display:block" class="img-fluid" id="imageCanvas" width=1600px height=605px>
+                        <canvas id="canvasID"></canvas>
+                    </canvas>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-8">
+                    <div style="height: 300px; overflow: scroll;" class="border p-2">
+                        <div class="form-group">
+                            <label>Nomor</label>
+                            <input type="text" class="form-control" id="nomor" value="234">
+                        </div>
+                        <div class="form-group">
+                            <label>Telah terima dari</label>
+                            <input type="text" class="form-control" id="dari" value="Ibnu Maksum">
+                        </div>
+                        <div class="form-group">
+                            <label>Uang sejumlah</label>
+                            <input type="text" class="form-control" id="sejumlah"
+                                value="satu juta lima ratus empat puluh lima rupiah" placeholder="terbilang">
+                        </div>
+                        <div class="form-group">
+                            <label>Untuk Pembayaran</label>
+                            <input type="text" class="form-control" id="untuk1" value="Pembayaran" placeholder="baris 1">
+                            <input type="text" class="form-control" id="untuk2" value="Uang Muka Rumah"
+                                placeholder="baris 2">
+                            <input type="text" class="form-control" id="untuk3" value="Uang Muka Mobil"
+                                placeholder="baris 3">
+                        </div>
+                        <div class="form-group">
+                            <label>Rp. </label>
+                            <input type="text" value="1.000.545,-" class="form-control" id="jumlah">
+                        </div>
+                        <div class="form-group">
+                            <label>Lokasi dan Tanggal</label>
+                            <input type="text" class="form-control" id="lokasi" value="Kota Serang, 12 Maret 2024"
+                                placeholder="kota, tanggal">
+                        </div>
+                        <div class="form-group">
+                            <label>Nama Lengkap</label>
+                            <input type="text" class="form-control" id="nama" value="Ibnu Maksum"
+                                placeholder="nama lengkap">
+                        </div>
+
+                    </div>
+                    </div>
+                    <div class="col-md-4" align="center">
+                        <canvas id="signature" class="border" width=300px height=300px></canvas>
+                        <button type="button" id="clear" class="btn btn-warning">clear</button>
+                    </div>
+                </div>
+                <button type="button" id="download" class="btn btn-primary">download</button>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+<script>
+    var text_title = "1234567890123456789012345678901234567890";
+    var nomor = "234";
+    var dari = "Ibnu Maksum";
+    var sejumlah = "satu juta lima ratus empat puluh lima rupiah";
+    var untuk1 = "Pembayaran";
+    var untuk2 = "Uang Muka Rumah";
+    var untuk3 = "Uang Muka Mobil";
+    var jumlah = "  1.000.545,-";
+    var lokasi = "Kota Serang, 12 Maret 2024";
+    var nama = "      Ibnu Maksum";
+    var canvas = document.getElementById('imageCanvas');
+    var ctx = canvas.getContext('2d');
+    var img = new Image();
+    img.crossOrigin = "anonymous";
+    var pdf = new jsPDF('l', 'mm', [canvas.width, canvas.height]);
+
+    window.addEventListener('load', DrawPlaceholder)
+    function DrawPlaceholder() {
+        img.onload = function () {
+            DynamicText(img);
+            DrawText()
+        };
+        img.src = 'kuitansi.jpg';
+
+    }
+    function DrawText() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0);
+        ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
+        ctx.textBaseline = 'middle';
+        ctx.font = "45px 'Montserrat'";
+        //ctx.fillText(text_title, 1010, 390);
+        ctx.fillText(nomor, 400, 80);
+        ctx.fillText(dari, 640, 134);
+        ctx.fillText(sejumlah, 630, 202);
+        ctx.fillText(untuk1, 630, 258);
+        ctx.fillText(untuk2, 350, 302);
+        ctx.fillText(untuk3, 350, 345);
+        ctx.fillText(jumlah, 430, 510);
+        ctx.font = "40px 'Montserrat'";
+        ctx.fillText(lokasi, 1010, 390);
+        ctx.fillText(nama, 1110, 550);
+    }
+
+    function DynamicText(img) {
+        document.getElementById('nomor').addEventListener('keyup', function () {
+            nomor = this.value;
+            DrawText();
+        });
+        document.getElementById('dari').addEventListener('keyup', function () {
+            dari = this.value;
+            DrawText();
+        });
+        document.getElementById('sejumlah').addEventListener('keyup', function () {
+            sejumlah = this.value;
+            DrawText();
+        });
+        document.getElementById('dari').addEventListener('keyup', function () {
+            dari = this.value;
+            DrawText();
+        });
+        document.getElementById('untuk1').addEventListener('keyup', function () {
+            untuk1 = this.value;
+            DrawText();
+        });
+        document.getElementById('untuk2').addEventListener('keyup', function () {
+            untuk2 = this.value;
+            DrawText();
+        });
+        document.getElementById('untuk3').addEventListener('keyup', function () {
+            untuk3 = this.value;
+            DrawText();
+        });
+        document.getElementById('jumlah').addEventListener('keyup', function () {
+            jumlah = this.value;
+            DrawText();
+        });
+        document.getElementById('lokasi').addEventListener('keyup', function () {
+            lokasi = this.value;
+            DrawText();
+        });
+        document.getElementById('nama').addEventListener('keyup', function () {
+            nama = this.value;
+            DrawText();
+        });
+    }
+
+    function convertToImage() {
+        var imgData = canvas.toDataURL("image/jpeg", 1.0);
+
+
+        pdf.addImage(imgData, 'JPEG', 0, 0,canvas.width, canvas.height);
+        pdf.save("kuitansi.pdf");
+//        window.open(canvas.toDataURL('png'));
+    }
+    document.getElementById('download').onclick = function download() {
+        convertToImage();
+    }
+
+    window.requestAnimFrame = (function (callback) {
+        return window.requestAnimationFrame ||
+            window.webkitRequestAnimationFrame ||
+            window.mozRequestAnimationFrame ||
+            window.oRequestAnimationFrame ||
+            window.msRequestAnimaitonFrame ||
+            function (callback) {
+                window.setTimeout(callback, 1000 / 60);
+            };
+    })();
+
+    var canvasig = document.getElementById("signature");
+    var ctxs = canvasig.getContext("2d");
+    ctxs.strokeStyle = "#222222";
+    ctxs.lineWidth = 3;
+
+    var drawing = false;
+    var mousePos = {
+        x: 0,
+        y: 0
+    };
+    var lastPos = mousePos;
+
+    canvasig.addEventListener("mousedown", function (e) {
+        drawing = true;
+        lastPos = getMousePos(canvasig, e);
+    }, false);
+
+    canvasig.addEventListener("mouseup", function (e) {
+        DrawText()
+        ctx.drawImage(canvasig,1110, 350);
+        drawing = false;
+    }, false);
+
+    canvasig.addEventListener("mousemove", function (e) {
+        mousePos = getMousePos(canvasig, e);
+    }, false);
+
+    // Add touch event support for mobile
+    canvasig.addEventListener("touchstart", function (e) {
+
+    }, false);
+
+    canvasig.addEventListener("touchmove", function (e) {
+        var touch = e.touches[0];
+        var me = new MouseEvent("mousemove", {
+            clientX: touch.clientX,
+            clientY: touch.clientY
+        });
+        canvasig.dispatchEvent(me);
+    }, false);
+
+    canvasig.addEventListener("touchstart", function (e) {
+        mousePos = getTouchPos(canvasig, e);
+        var touch = e.touches[0];
+        var me = new MouseEvent("mousedown", {
+            clientX: touch.clientX,
+            clientY: touch.clientY
+        });
+        canvasig.dispatchEvent(me);
+    }, false);
+
+    canvasig.addEventListener("touchend", function (e) {
+        var me = new MouseEvent("mouseup", {});
+        canvasig.dispatchEvent(me);
+    }, false);
+
+    function getMousePos(canvasDom, mouseEvent) {
+        var rect = canvasDom.getBoundingClientRect();
+        return {
+            x: mouseEvent.clientX - rect.left,
+            y: mouseEvent.clientY - rect.top
+        }
+    }
+
+    function getTouchPos(canvasDom, touchEvent) {
+        var rect = canvasDom.getBoundingClientRect();
+        return {
+            x: touchEvent.touches[0].clientX - rect.left,
+            y: touchEvent.touches[0].clientY - rect.top
+        }
+    }
+
+    function renderCanvas() {
+        if (drawing) {
+            ctxs.moveTo(lastPos.x, lastPos.y);
+            ctxs.lineTo(mousePos.x, mousePos.y);
+            ctxs.stroke();
+            lastPos = mousePos;
+        }
+    }
+
+    // Prevent scrolling when touching the canvas
+    document.body.addEventListener("touchstart", function (e) {
+        if (e.target == canvasig) {
+            e.preventDefault();
+        }
+    }, false);
+    document.body.addEventListener("touchend", function (e) {
+        if (e.target == canvasig) {
+            e.preventDefault();
+        }
+    }, false);
+    document.body.addEventListener("touchmove", function (e) {
+        if (e.target == canvasig) {
+            e.preventDefault();
+        }
+    }, false);
+
+    (function drawLoop() {
+        requestAnimFrame(drawLoop);
+        renderCanvas();
+    })();
+
+    function clearCanvas() {
+        canvasig.width = canvasig.width;
+        ctxs.strokeStyle = "#222222";
+        ctxs.lineWidth = 3;
+        DrawText()
+        ctx.drawImage(canvasig,1110, 350);
+    }
+
+    // // Set up the UI
+    // var sigText = document.getElementById("sig-dataUrl");
+    // var sigImage = document.getElementById("sig-image");
+    var clearBtn = document.getElementById("clear");
+    // var submitBtn = document.getElementById("sig-submitBtn");
+    clearBtn.addEventListener("click", function (e) {
+        clearCanvas();
+    }, false);
+    // submitBtn.addEventListener("click", function (e) {
+    //     var dataUrl = canvas.toDataURL();
+    //     sigText.innerHTML = dataUrl;
+    //     sigImage.setAttribute("src", dataUrl);
+    // }, false);
+</script>
+
+</body>
+</html>
