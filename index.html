@@ -176,7 +176,7 @@
 
 
         pdf.addImage(imgData, 'JPEG', 0, 0,canvas.width, canvas.height);
-        pdf.save("kuitansi.pdf");
+        pdf.save("kuitansi_"+nomor.trim()+".pdf");
 //        window.open(canvas.toDataURL('png'));
     }
     document.getElementById('download').onclick = function download() {
