@@ -185,10 +185,10 @@
         pdf.save("kuitansi_"+nomor.trim()+".pdf");
     }
 	function downloadPng() {
-        window.open(canvas.toDataURL('png'));
+        window.location = canvas.toDataURL('png');
     }
 	function downloadJpg() {
-        window.open(canvas.toDataURL("image/jpeg", 1.0));
+        window.location = canvas.toDataURL("image/jpeg", 1.0);
     }
 
     document.getElementById('downloadPdf').onclick = function download() {
