@@ -184,11 +184,13 @@
         pdf.addImage(imgData, 'JPEG', 0, 0,canvas.width, canvas.height);
         pdf.save("kuitansi_"+nomor.trim()+".pdf");
     }
-	function downloadPng() {
-        window.location = canvas.toDataURL('png');
+	function downloadPng() 
+        var win = window.open();
+		win.document.write("<img src='"+canvas.toDataURL("image/png")+"'/>");
     }
 	function downloadJpg() {
-        window.location = canvas.toDataURL("image/jpeg", 1.0);
+        var win = window.open();
+		win.document.write("<img src='"+canvas.toDataURL("image/jpeg", 1.0)+"'/>");
     }
 
     document.getElementById('downloadPdf').onclick = function download() {
@@ -325,19 +327,10 @@
         ctx.drawImage(canvasig,1110, 350);
     }
 
-    // // Set up the UI
-    // var sigText = document.getElementById("sig-dataUrl");
-    // var sigImage = document.getElementById("sig-image");
     var clearBtn = document.getElementById("clear");
-    // var submitBtn = document.getElementById("sig-submitBtn");
     clearBtn.addEventListener("click", function (e) {
         clearCanvas();
     }, false);
-    // submitBtn.addEventListener("click", function (e) {
-    //     var dataUrl = canvas.toDataURL();
-    //     sigText.innerHTML = dataUrl;
-    //     sigImage.setAttribute("src", dataUrl);
-    // }, false);
 </script>
 
 </body>
