@@ -77,7 +77,13 @@
                     </div>
                 </div>
             	<br>
-                <center><button type="button" id="download" class="btn btn-primary btn-block">download</button></center>
+                <center>
+                <div class="btn-group" role="group" aria-label="Basic example">
+  					<button type="button" id="downloadPdf" class="btn btn-primary">.: PDF :.</button>
+					<button type="button" id="downloadPng" class="btn btn-info">.: PNG :.</button>
+					<button type="button" id="downloadJpg" class="btn btn-success">.: JPG :.</button>
+				</div>
+                </center>
             	<br><br>
             </div>
         </div>
@@ -171,16 +177,28 @@
         });
     }
 
-    function convertToImage() {
+    function downloadPdf() {
         var imgData = canvas.toDataURL("image/jpeg", 1.0);
 
 
         pdf.addImage(imgData, 'JPEG', 0, 0,canvas.width, canvas.height);
         pdf.save("kuitansi_"+nomor.trim()+".pdf");
-//        window.open(canvas.toDataURL('png'));
     }
-    document.getElementById('download').onclick = function download() {
-        convertToImage();
+	function downloadPng() {
+        window.open(canvas.toDataURL('png'));
+    }
+	function downloadJpg() {
+        window.open(canvas.toDataURL("image/jpeg", 1.0));
+    }
+
+    document.getElementById('downloadPdf').onclick = function download() {
+        downloadPdf();
+    }
+	document.getElementById('downloadPng').onclick = function download() {
+        downloadPng();
+    }
+	document.getElementById('downloadJpg').onclick = function download() {
+        downloadJpg();
     }
 
     window.requestAnimFrame = (function (callback) {
