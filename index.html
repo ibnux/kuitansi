@@ -179,12 +179,10 @@
 
     function downloadPdf() {
         var imgData = canvas.toDataURL("image/jpeg", 1.0);
-
-
         pdf.addImage(imgData, 'JPEG', 0, 0,canvas.width, canvas.height);
         pdf.save("kuitansi_"+nomor.trim()+".pdf");
     }
-	function downloadPng() 
+	function downloadPng() {
         var win = window.open();
 		win.document.write("<img src='"+canvas.toDataURL("image/png")+"'/>");
     }
@@ -328,6 +326,7 @@
     }
 
     var clearBtn = document.getElementById("clear");
+    // var submitBtn = document.getElementById("sig-submitBtn");
     clearBtn.addEventListener("click", function (e) {
         clearCanvas();
     }, false);
